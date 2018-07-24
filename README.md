@@ -1,5 +1,6 @@
-# react-harman-mar-2018
-React JS training material for training at __Company name__ (__Dates go in here__) 
+# react-harman-july-25-27-2018
+React JS training material for training at Harman, Bangalore (July 25 - 27, 2018)  
+Training provided by __Enterprise Patterns__
 
 ## About React
 React is a web front-end library used to create user interfaces, i.e. a view in MVC architecture. Originally created at Facebook, it is now a free and open-source framework maintained by Facebook, Instagram and some other individual developers and corporations. It is not a full- fledged Single Page Application (SPA) framework unlike Angular, and hence other libraries like React Router and Redux are required to build an SPA. Additionally, a module bundler like Webpack is usually used in a React application.  
@@ -43,21 +44,23 @@ This path is a shared folder where software for training is available for downlo
 
 ## Training schedule
 __Topic__: React JS  
-__Dates__: __Dates of training__  
-__Time__: __Timings of training__
+__Dates__: July 25 - 27, 2018  
+__Time__: 9:30 AM - 5:30 PM
   
 __Breaks__:  
-Lunch break: 12:45 - 1:30 PM  
+Lunch break: 1:00 PM - 1:45 PM  
 Tea breaks: Two tea breaks - one in morning and one in afternoon session, each 10 minutes
 
 ## How to join the meeting
 The training session are recorded using Zoom (https://zoom.us). If you are using Zoom for the first time you will be prompted to download Zoom when you open the meeting link in the browser. Do so and follow the steps in the wizard.
 
-Join from PC, Mac, Linux, iOS or Android: __Meeting link__
+[Join from PC, Mac, Linux, iOS or Android](https://zoom.us/j/465451423)
 
 ## Video recordings
 The videos recordings of the session is available at the following location.
-- [__Date__]()
+- [Day 1 | July 25](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-25-2018.mp4)
+- [Day 2 | July 26](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-26-2018.mp4)
+- [Day 3 | July 27](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-27-2018.mp4)
 
 
 ## How to run the server for blogs (Ajax example)
