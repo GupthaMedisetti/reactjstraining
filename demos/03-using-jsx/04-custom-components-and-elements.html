@@ -1,0 +1,53 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Custom React components</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <link rel="stylesheet" href="css/panel.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Custom React components</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * React applications are structured using custom React elements and this is what gives them power!
+             * A React component can be created using a function or a class. It is simpler to create it using a function, but class-based components have more features than function-based ones (class-based components have "state" and lifecycle methods which we will see later).
+             * Custom component instances (elements) are created in JSX using the same syntax as built-in HTML equivalent components instances - you can use the self-closing tag syntax <CustomComponent /> if no content exists within the element or <Component></Component> if there is content within.
+             */
+            function Panel() {
+                return <section className="panel" id="panel-1">
+                            <header className="panel-heading">
+                                What is React?
+                            </header>
+                            <div className="panel-body">
+                                It is a JS library, for building user interfaces, created by Facebook.
+                            </div>
+                        </section>;
+            }
+
+            var panel = <Panel />;
+            ReactDOM.render( panel, document.getElementById( 'root' ) );
+         </script>
+    </body>
+</html>

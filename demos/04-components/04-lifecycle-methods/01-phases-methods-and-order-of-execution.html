@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Lifecycle methods of a component</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Lifecycle methods of a component</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Order of execution of lifecycle methods
+             * Parent constructor
+             * Parent componentWillMount
+             * Parent render starts
+             * Parent render ends
+             * Child constructor
+             * Child child-1 componentWillMount
+             * Child child-1 render starts
+             * Child child-1 render ends
+             * Child constructor
+             * Child child-2 componentWillMount
+             * Child child-2 render starts
+             * Child child-2 render ends
+             * Child child-1 componentDidMount
+             * Child child-2 componentDidMount
+             * Parent componentDidMount
+             * Child child-1 shouldComponentUpdate
+             * Child child-1 componentWillUpdate
+             * Child child-1 render starts
+             * Child child-1 render ends
+             * Child child-1 componentDidUpdate
+             * Child child-2 shouldComponentUpdate
+             * Child child-2 componentWillUpdate
+             * Child child-2 render starts
+             * Child child-2 render ends
+             * Child child-2 componentDidUpdate
+             * Parent shouldComponentUpdate
+             * Parent componentWillUpdate
+             * Parent render starts
+             * Parent render ends
+             * Child child-1 componentWillReceiveProps
+             * Child child-1 shouldComponentUpdate
+             * Child child-1 componentWillUpdate
+             * Child child-1 render starts
+             * Child child-1 render ends
+             * Child child-2 componentWillReceiveProps
+             * Child child-2 shouldComponentUpdate
+             * Child child-2 componentWillUpdate
+             * Child child-2 render starts
+             * Child child-2 render ends
+             * Child child-1 componentDidUpdate
+             * Child child-2 componentDidUpdate
+             * Parent componentDidUpdate
+             * Parent componentWillReceiveProps
+             * Parent shouldComponentUpdate
+             * Parent componentWillUpdate
+             * Parent render starts
+             * Parent render ends
+             * Child child-1 componentWillReceiveProps
+             * Child child-1 shouldComponentUpdate
+             * Child child-1 componentWillUpdate
+             * Child child-3 render starts
+             * Child child-3 render ends
+             * Child child-2 componentWillReceiveProps
+             * Child child-2 shouldComponentUpdate
+             * Child child-2 componentWillUpdate
+             * Child child-4 render starts
+             * Child child-4 render ends
+             * Child child-3 componentDidUpdate
+             * Child child-4 componentDidUpdate
+             * Parent componentDidUpdate
+             */
+            class Child extends React.Component {
+                constructor( props ) {
+                    console.log( `Child constructor` );
+                    super( props );
+                    this.state = { x : 1 };
+                }
+                
+                componentWillMount() {
+                    console.log( `Child ${this.props.id} componentWillMount` );
+                }
+
+                render() {
+                    console.log( `Child ${this.props.id} render starts` );
+                    let el = <h4>Child {this.props.id} state.x={this.state.x}</h4>;
+                    console.log( `Child ${this.props.id} render ends` );
+                    return el;
+                }
+
+                componentDidMount() {
+                    console.log( `Child ${this.props.id} componentDidMount` );
+                    setTimeout(() => {
+                        this.setState(prevState => ({
+                            x: prevState.x + 1
+                        }));
+                    }, 0);
+                }
+
+                componentWillReceiveProps( nextProps ) {
+                    console.log( `Child ${this.props.id} componentWillReceiveProps` );
+                }
+
+                shouldComponentUpdate( nextProps, nextState ) {
+                    console.log( `Child ${this.props.id} shouldComponentUpdate` );
+                    return true; // try returning true/false
+                }
+
+                componentWillUpdate( nextProps, nextState ) {
+                    console.log( `Child ${this.props.id} componentWillUpdate` );
+                }
+
+                componentDidUpdate( prevProps, prevState ) {
+                    console.log( `Child ${this.props.id} componentDidUpdate` );
+                }
+
+                componentWillUnmount() {
+                    console.log( `Child ${this.props.id} componentWillUnmount` );
+                }
+            }
+
+            class Parent extends React.Component {
+                constructor( props ) {
+                    console.log( `Parent constructor` );
+                    super( props );
+                    this.state = { x : 1 };
+                }
+                
+                componentWillMount() {
+                    console.log( `Parent componentWillMount` );
+                }
+
+                render() {
+                    console.log( `Parent render starts` );
+                    let el = (
+                        <div>
+                            Parent state.x={this.state.x}
+                            <Child id={this.props.id1} />
+                            <Child id={this.props.id2} />
+                        </div>
+                    );
+                    console.log( `Parent render ends` );
+                    return el;
+                }
+
+                componentDidMount() {
+                    console.log( `Parent componentDidMount` );
+                    setTimeout(() => {
+                        this.setState(prevState => ({
+                            x: prevState.x + 1
+                        }));
+                    }, 0);
+                }
+
+                componentWillReceiveProps( nextProps ) {
+                    console.log( `Parent componentWillReceiveProps` );
+                }
+
+                shouldComponentUpdate( nextProps, nextState ) {
+                    console.log( `Parent shouldComponentUpdate` );
+                    return true; // try returning true/false
+                }
+
+                componentWillUpdate( nextProps, nextState ) {
+                    console.log( `Parent componentWillUpdate` );
+                }
+
+                componentDidUpdate( prevProps, prevState ) {
+                    console.log( `Parent componentDidUpdate` );
+                }
+
+                componentWillUnmount() {
+                    console.log( `Parent componentWillUnmount` );
+                }
+            } 
+
+            ReactDOM.render(
+                <Parent id1="child-1" id2="child-2" />,
+                document.getElementById( 'root' )
+            );
+
+            setTimeout(() => {
+                console.log( `**********************************` );
+                ReactDOM.render(
+                    <Parent id1="child-3" id2="child-4" />,
+                    document.getElementById( 'root' )
+                );
+            }, 5000);
+         </script>
+    </body>
+</html>

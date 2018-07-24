@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Using propTypes to check data type of props properties at runtime</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/prop-types.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Using propTypes to check data type of props properties at runtime</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * PropTypes is used for checking of props passed at runtime. Props passed from parent as well as those set on defaultProps are checked using PropTypes. It is available as a separate script file/node package. 
+             * 
+             * In case of prop type mismatch a warning message is displayed in console for the benefit of the developer.
+             * 
+             * Note: PropTypes is meant to avoid unintentional errors on the part of developer. It is meant to be used ONLY during development.
+             */
+
+            /**
+             * In the below example, try changing the type of props passed while creating ShoppingList element, as well and those set in defaultProps. It will throw an warning
+             */
+            class ShoppingList extends React.Component {
+                render() {
+                    let { title, items, couponCodeOrDiscount, onClick } = this.props;
+                    return (
+                        <div>
+                            <h3>{title}</h3>
+                            <ul>
+                            {
+                                items.map(item => <li onClick={itemClickHandler.bind(null, item.name, item.quantity)}>{item.name} - {item.quantity}</li>)
+                            }
+                            </ul>
+                            Discount code or percentage : <strong>{couponCodeOrDiscount}</strong>
+                        </div>
+                    );
+                }
+            }
+
+            ShoppingList.defaultProps = {
+                title: 'Things to buy at Big Bazaar',
+                couponCodeOrDiscount: 'NEW30',
+                onClick: function() {}
+            };
+            
+            ShoppingList.propTypes = {
+                title: PropTypes.string.isRequired,
+                items: PropTypes.arrayOf(PropTypes.shape({
+                    name: PropTypes.string,
+                    quantity: PropTypes.number
+                })),
+                couponCodeOrDiscount: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.number
+                ]).isRequired,
+                onClick: PropTypes.func
+            };
+            
+            let thingsToBuy = [
+                { name: 'Tomato Ketchup', quantity: 1 },
+                { name: 'Notebook', quantity: 2 },
+                { name: 'Chocolate Bars', quantity: 10 }
+            ];
+
+            function itemClickHandler( name, quantity ) {
+                console.log( `Need to purchase ${quantity} of ${name}` );
+            }
+
+            ReactDOM.render(
+                <ShoppingList title="Things to buy at More Megastore" couponCodeOrDiscount="30" items={thingsToBuy} onClick={itemClickHandler}  />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

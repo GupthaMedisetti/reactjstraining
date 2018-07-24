@@ -1,0 +1,69 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>JSX expressions - using conditional expression</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+        <style>
+            .invoice-item {
+                margin: 10px 0;
+            }
+        </style>    
+    </head>
+    <body>
+        <h1>JSX Expressions - using conditional expression </h1>
+        <hr />
+    
+        <div id="root"></div>
+        
+        <script type="text/babel">
+            /**
+             * If you prefer using if..else instead of ?: to choose between elements, you can have the if..else outside of JSX.
+             */
+            let basePriceOfBurger = 1, taxRate = 1.45;
+            let thankyou = <span>
+                                <strong>Thank you!</strong> We hope to see you again.
+                           </span>;
+            
+            // change this to true/false and check
+            let unusedCoupon = true, couponEl;
+
+            if( unusedCoupon ) {
+                couponEl = <div>Use coupon code NEW30 to get 30% off on your next purchase</div>;
+            } else {
+                couponEl = null;
+            }
+
+            ReactDOM.render(
+                <div>
+                    <div>Invoice number {100 + 1}</div>
+                    <div className="invoice-item">
+                        <div>Base price of burger is ${basePriceOfBurger}</div>
+                        <div>Tax rate is {taxRate}%</div>
+                        <div>Price of burger is {new Number( ( 1 + taxRate / 100 ) * basePriceOfBurger ).toFixed( 2 )}</div>
+                    </div>
+                    {thankyou}
+                    {couponEl}
+                </div>,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

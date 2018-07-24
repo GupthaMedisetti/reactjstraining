@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Element's props are immutable</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Element's props are immutable</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * As discussed earlier props are immutable. They are meant to only serve as inputs during component creation. Once you create an component instance, its props cannot be mutated. If you try to modify props it results in an error - so NEVER do it.
+             */
+            function Message( props ) {
+                // Uncomment the following and note that it throws an error
+                // props.title = 'Hello, world';
+                return <h2>{props.title}</h2>;
+            }
+            
+            ReactDOM.render(
+                <Message title="Greeting from me" />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

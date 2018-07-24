@@ -1,0 +1,109 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>JSX expressions - iterating through an array of elements using map</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <link rel="stylesheet" href="css/invoice.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>JSX Expressions - iterating through an array of elements using map</h1>
+        <hr />
+    
+        <div id="root"></div>
+        
+        <script type="text/babel">
+            /**
+             * Since JSX expressions include JS expressions, we can iterate an array etc. in JSX. We use this power to iterate over children, properties in props etc. using array's map() method, and map to an array of React elements.
+             * 
+             * When binding an array, it is recommended we set a prop called key to a unique value for each rendered row. We shall see this later.
+             */
+            let totalAmount = 0, unusedCoupon = true;
+            let items = [
+                {
+                    name: 'Burger',
+                    basePrice: 1,
+                    taxRate: 1.45
+                },
+                {
+                    name: 'French fries',
+                    basePrice: 1.55,
+                    taxRate: 2.45
+                },
+                {
+                    name: 'Coke float',
+                    basePrice: 0.75,
+                    taxRate: 4.5
+                }
+            ];
+
+            ReactDOM.render(
+                <table>
+                    <thead>
+                        <tr>
+                            <th colSpan="4" className="text-center">Invoice number {100 + 1}</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>Base Price</th>
+                            <th>Tax</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            items.map( item => {
+                                let { name, basePrice, taxRate } = item;
+                                basePrice = new Number( basePrice ).toFixed( 2 );
+                                let totalPrice = new Number( ( 1 + taxRate / 100 ) * basePrice ).toFixed( 2 );
+                                totalAmount += parseFloat( totalPrice );
+                                return (
+                                    <tr>
+                                        <td>{name}</td>
+                                        <td>${basePrice}</td>
+                                        <td>{taxRate}%</td>
+                                        <td>${totalPrice}</td>
+                                    </tr>
+                                );
+                            })
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan="3">Total amount</td>
+                            <td><strong>${new Number( totalAmount ).toFixed( 2 )}</strong></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="4" className="text-center">
+                                <strong>Thank you!</strong> We hope to see you again.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="4" className="text-center">
+                                {unusedCoupon ? <div>Use coupon code <span className="coupon">NEW30</span> to get 30% off on your next purchase</div> : null}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

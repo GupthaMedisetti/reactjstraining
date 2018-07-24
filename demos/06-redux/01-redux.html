@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script src="https://unpkg.com/redux@3.7.2/dist/redux.min.js"></script>
+    </head>
+    <body>
+        <input type="text" id="step" placeholder="10" />
+        <input type="button" id="btn-increment" value="Increment" onclick="increment();" />
+        <input type="button" id="btn-decrement" value="Decrement" onclick="decrement();" />
+
+        <h1 id="el-count"></h1>
+        
+        <script>
+            // actions
+            const INCREMENT = 'INCREMENT';
+            const DECREMENT = 'DECREMENT';
+            
+            // create a store to maintain stae of app - pass it reducer(s) - if you have multiple reducers then you need to call combineReducers() - we will see later
+            // initialzing a store calls the reducers once
+            let appStore = Redux.createStore( counterReducer );
+            
+            // action creators return action objects. Action objects MJST have a "type" property set to an identifier for the action
+            // Action can have payload (conventionally the data is stored in a property called "payload")
+            function incrementAction( step ) {
+                return {
+                    type: INCREMENT,
+                    payload: {
+                        step: step
+                    }
+                };
+            }
+
+            function decrementAction( step ) {
+                return {
+                    type: DECREMENT,
+                    payload: {
+                        step: step
+                    }
+                };
+            }
+
+            // view dispatches action using action creator
+            function increment() {
+                appStore.dispatch( incrementAction( parseInt( document.getElementById( 'step' ).value ) ) );
+            }
+
+            function decrement() {
+                appStore.dispatch( decrementAction( parseInt( document.getElementById( 'step' ).value ) ) );
+            }
+
+            // subscribe() is required by view to listen for state changes
+            appStore.subscribe( () => {
+                console.log( appStore.getState() );
+                document.getElementById( 'el-count' ).innerText = appStore.getState().count;
+            });
+
+            console.log( appStore );
+            console.log( appStore.getState() ); // gets the application state that the store is maintaining
+
+            // reducers - MUST be pure functions
+            // Cannot modify arguments or global variables
+            // Must not use global variables
+            // Cannot make API calls, set timer etc.
+            // MUST return same output for same input
+            function counterReducer( prevState = { count: 0 }, action ) {
+                let newState = { ...prevState };
+
+                switch( action.type ) {
+                    case INCREMENT:
+                        newState.count = prevState.count + action.payload.step;
+                        break;
+                    case DECREMENT:
+                        newState.count = prevState.count - action.payload.step;
+                        break;
+                }
+
+                return newState;
+            }
+        </script>
+    </body>
+</html>

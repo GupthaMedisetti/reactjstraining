@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Setting key property for efficient DOM updates</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Setting key property for efficient DOM updates</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Keys only make sense in the context of the surrounding array.
+             * For example, if you extract a ListItem component, you should keep the key on the <ListItem /> elements in the array rather than on the <li> element in the ListItem itself.
+             * Reference: https://reactjs.org/docs/lists-and-keys.html
+             */
+
+            class ListItem extends React.Component {
+                render() {
+                    return <li>{this.props.item.name}</li>;
+                }
+            }
+
+            class List extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        items: this.props.items
+                    };
+                }
+
+                render() {
+                    let lis = this.state.items.map(item => {
+                        return <ListItem key={item.id.toString()} item={item} />;
+                    });
+                    return <ul>{lis}</ul>
+                }
+            }
+            
+            let thingsToBuy = [
+                { id: 43, name: 'Tomato Ketchup' },
+                { id: 25, name: 'Notebook' },
+                { id: 37, name: 'Chocolate Bars' }
+            ];
+
+            ReactDOM.render(
+                <List items={thingsToBuy} />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

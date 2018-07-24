@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>defaultValue</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>defaultValue</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * In an input element the default value is represented using defaultValue and not value
+             */
+
+            class InputEcho extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        textValue: ''
+                    };
+                    this.handleChange = this.handleChange.bind( this );
+                }
+
+                handleChange() {
+                    this.setState({
+                        textValue: this.inputNode.value
+                    });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <input type="text" ref={ ( node ) => this.inputNode = node } onChange={this.handleChange} defaultValue="John" />
+                            <br /><br />
+                            <span>{this.state.textValue}</span>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render( <InputEcho />, document.getElementById( 'root' ) );
+        </script>
+    </body>
+</html>

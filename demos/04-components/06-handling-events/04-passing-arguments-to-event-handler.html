@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Passing arguments to the event handler</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <link rel="stylesheet" href="css/invoice.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Passing arguments to the event handler</h1>
+        <hr />
+    
+        <div id="root"></div>
+        
+        <script type="text/babel">
+            /**
+             * Since JSX expressions include JS expressions, we can iterate an array etc. in JSX. We use this power to iterate over children, properties in props etc. using array's map() method, and map to an array of React elements.
+             * 
+             * When binding an array, it is recommended we set a prop called key to a unique value for each rendered row. We shall see this later.
+             */
+            class Invoice extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        totalAmount: 0,
+                        unusedCoupon: true,
+                        items: this.props.items
+                    };
+                    this.setComputedPartOfState();
+                }
+
+                setComputedPartOfState() {
+                    this.state.items.forEach(item => {
+                        let { name, basePrice, taxRate } = item;
+                        item.basePrice = new Number( basePrice ).toFixed( 2 );
+                        item.totalPrice = new Number( ( 1 + taxRate / 100 ) * basePrice ).toFixed( 2 );
+                    });
+                }
+
+                deleteItem( id ) {
+                    let index = this.setState(prevState => {
+                        let newState = {...prevState};
+                        newState.items.findIndex( item => id === item.id );
+                        newState.items.splice( index, 1 );
+                        return newState;
+                    });
+                    ...{}
+                }
+
+                render() {
+                    let totalAmount = 0;
+                    return (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colSpan="4" className="text-center">Invoice number {100 + 1}</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Base Price</th>
+                                    <th>Tax</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.items.map( item => {
+                                        let { name, basePrice, taxRate } = item;
+                                        basePrice = new Number( basePrice ).toFixed( 2 );
+                                        let totalPrice = new Number( ( 1 + taxRate / 100 ) * basePrice ).toFixed( 2 );
+                                        totalAmount += parseFloat( totalPrice );
+                                        return (
+                                            <tr id={'item-' + item.id} onClick={this.deleteItem.bind( this, item.id )}>
+                                                <td>{name}</td>
+                                                <td>${basePrice}</td>
+                                                <td>{taxRate}%</td>
+                                                <td>${totalPrice}</td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="3">Total amount</td>
+                                    <td><strong>${new Number( totalAmount ).toFixed( 2 )}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="4" className="text-center">
+                                        <strong>Thank you!</strong> We hope to see you again.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="4" className="text-center">
+                                        {this.state.unusedCoupon ? <div>Use coupon code <span className="coupon">NEW30</span> to get 30% off on your next purchase</div> : null}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    );
+                }
+            }
+
+            ReactDOM.render(
+                <Invoice items={[
+                            {
+                                id: 1,
+                                name: 'Burger',
+                                basePrice: 1,
+                                taxRate: 1.45
+                            },
+                            {
+                                id: 2,
+                                name: 'French fries',
+                                basePrice: 1.55,
+                                taxRate: 2.45
+                            },
+                            {
+                                id: 3,
+                                name: 'Coke float',
+                                basePrice: 0.75,
+                                taxRate: 4.5
+                            }
+                        ]} />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

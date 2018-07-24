@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>React elements - intro</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>React elements</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * React elements are JS objects representing equivalent DOM nodes.
+             * They are created using createElement() or JSX (which in turn translates to createElement() calls)
+             * 
+             * React elements are immutable. Once you create an element, you can't change its children or attributes.
+             */
+            var messageEl = <h2>Hello, world</h2>;
+            ReactDOM.render(
+                messageEl,
+                document.getElementById( 'root' )
+            );
+
+            // how the element is initially
+            console.log( 'messageEl = ', messageEl );
+            
+            // Try changing general properties, props, children etc.
+            messageEl.type = 'h3';
+            messageEl.props.title = 'A title for the message element';
+            messageEl.props.children = [ "Hello, world", "It's a beautiful day." ];
+            
+            // observe that there will be no changes in the element - i.e. it will not mutate
+            console.log( 'messageEl = ', messageEl );
+        </script>
+    </body>
+</html>

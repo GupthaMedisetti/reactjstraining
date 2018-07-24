@@ -1,0 +1,2 @@
+# Exercises
+1. Write a contact form which uses controlled components to maintain form state in sync with input state. The form should enable the submit button only if the form state is valid. It should display error messages for invalid states of input elements. On submit of the form, log the form state (which summarizes input element states) in the console.

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Functional components</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Component function</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * A component function that accepts time to be displayed as prop or child element, and even sets a default if neither exists
+             * 
+             * An instance of the component is created using <ComponentFunctionName />
+             * 
+             * However, one drawback of such an instance is that it does not have a state associated with it - it can never be used to create a true timer component - we still need to resort to re-creating time elements and re-rendering - there is no true state maintained anywhere!
+             */
+
+            /**
+             * A component function that accepts time to be displayed as prop or child element, and even sets a default if neither exists.
+             */
+            function Time( props ) {
+                return (
+                    <div>
+                        <h3>{props.message}</h3>
+                        <h4>The time is {props.time || props.children || new Date().toLocaleTimeString()}</h4>
+                        <hr />
+                    </div>
+                );
+            }
+
+            ReactDOM.render( 
+                <div>
+                    <Time time={new Date().toLocaleString()} message="Local time" />
+                    <Time time={new Date().toUTCString()} message="GMT" />
+                    <Time message="Default time (local)" />
+                    <Time message="Content of children (GMT)">{new Date().toUTCString()}</Time>
+                </div>,
+                document.getElementById( 'root' )
+            );
+
+            setTimeout(() => {
+                setInterval( () => ReactDOM.render( <Time time={new Date().toLocaleString()} message="Local time" />, document.getElementById( 'root' ) ), 1000 );
+            }, 10000);
+        </script>
+    </body>
+</html>

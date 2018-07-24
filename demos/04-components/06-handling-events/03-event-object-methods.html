@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Event object methods</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Event object methods</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Just like in native JS event objects
+             * 1. preventDefault() prevents default browser action
+             * 2. stopPropagation() prevents event propagation - in React's case the event from bubbling to ancestor elements.
+             * Note: event.currentTarget is the element on which event handler is set and is executed
+             */
+            function handleClick( event ) {
+                console.log( event.type, event.currentTarget );
+            }
+            
+            function handleMouseOver( event ) {
+                console.log( event.type, event.currentTarget );
+                event.stopPropagation();
+            }
+
+            function confirmBeforeNavigation( event ) {
+                if( !confirm( 'Are you sure you want to leave this page?' ) ) {
+                    event.preventDefault();
+                }
+            }
+
+            class Message extends React.Component {
+                render() {
+                    return <h3 onClick={this.props.onClick} onMouseOver={this.props.onMouseOver}>Hello, world</h3>;
+                }
+            }
+
+            ReactDOM.render(
+                <div onClick={handleClick} onMouseOver={handleMouseOver}>
+                    <Message onClick={handleClick} onMouseOver={handleMouseOver} />
+                    <a href="https://www.google.com" onClick={confirmBeforeNavigation}>Google search page</a>
+                </div>,
+                document.getElementById( 'root' )
+            );
+         </script>
+    </body>
+</html>

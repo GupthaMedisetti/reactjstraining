@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Adding and using component state</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Adding and using component state</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Apart from props, every component class can have a state - this is specified using the this.state property on the component instance.
+             * 
+             * Functional components do not have state.
+             * 
+             * The state property represents the status of a component at a point in time. Some examples...
+             * 1. A form component may be in valid or invalid state depending on whether its field values conform to the rules in the application or not.
+             * 2. The values entered in a form may be stored as state. In this case state helps remember how the form was at an instant of time. This for example, would help restore it to the given state at a later point in time.
+             * 3. An Ajax call may be in progress and this may affect how the component is rendered (eg. a spinner being shown to user). Once the call completes (with success/error), the state of the component needs to be changed to reflect that. Corresponding changes in the UI will likely occur.
+             * 
+             * We can thus say, how the component looks or behaves is a function of its state. As a thumb rule, whatever data affects the look or behavior of a component instance should be stored in state (this.state), else it can be stored as a component instance variable (this).
+             * 
+             * State object changes should NEVER be made directly. It can be made inside the component using a React.Component method called setState(). Calling setState() results in re-render of the component - setting state directly will NOT result in re-rendering.
+             * 
+             * The setState() method has 2 signatures. setState() is asynchronous and cb is called after the state update.
+             * 1. setState( newState, cb ) - pass newState, the new state object
+             * 2. setState( ( curState, props ) => newState, cb ) - pass a updater function that gets current state object and component props, and which returns the new state object
+             * The new state object returned is shallow-merged with the previous state object, the value from new state overriding the previous state in case of a clash. 
+             * If the new state depends on the current state one MUST use the second way (one with updater function). This is because setState() changes state asynchronously - so changes to state are assured to happen as per the state when update happens, if the second way is used (it calls the updater only when ready to update the state - the curState is thus the state at the point when updater is called and not when setState() was called).
+             */
+
+            /**
+             * Inside of the methods set as event handlers (example start() and stop()), the method context, when method is called as an event handler, is undefined. Therefore we usually bind these methods to the component instance, usually, inside of the constructor.
+             * 
+             * Alternatively, the experimental JS feature of "class fields" may be used. This ensures the method context is the object.
+             * start = () => {
+             *      // code here...
+             * }
+             */
+            class Timer extends React.Component {
+                constructor(props) {
+                    super(props);
+                    
+                    // set initial state inside constructor
+                    this.state = this.getInitialState()
+                    
+                    // bind event handler method context to the component instance
+                    this.start = this.start.bind(this);
+                }
+
+                // helper method to get initial state
+                getInitialState() {
+                    return {
+                        status: 'new',
+                        timeElapsed: 0,
+                        timeStarted: new Date
+                    };
+                }
+
+                tick() {
+                    this.setState( ( prevState, props ) => {
+                        let newState;
+
+                        if( prevState.status === 'new' || prevState.status === 'running' ) {
+                            newState = {
+                                status: 'running',
+                                timeElapsed: parseInt( ( ( new Date ).getTime() - prevState.timeStarted.getTime() ) / 1000 )
+                            };
+                        } else {
+                            newState = prevState;
+                        }
+
+                        return newState;
+                    });
+                }
+
+                start() {
+                    this.tick();
+                    this.interval = setInterval(() => this.tick(), 1000);
+                }
+
+                componentDidMount() {
+                    this.start();
+                }
+
+                render() {
+                    return (
+                        <div>
+                            Seconds: {this.state.timeElapsed}
+                            <br />
+                            <button onClick={this.start}>Start</button>
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(<Timer />, document.getElementById( 'root' ));
+        </script>
+    </body>
+</html>

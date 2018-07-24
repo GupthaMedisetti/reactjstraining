@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Event object properties</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Event object properties</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function handleClick( event ) {
+                console.log( 'click | x, y |', event.clientX, event.clientY );
+            }
+
+            class Message extends React.Component {
+                handler( event ) {
+                    console.log( 'event type |', event.type );
+                }
+
+                render() {
+                    return <h3 onClick={this.props.onClick} onDoubleClick={this.handler.bind(this)} onMouseOut={this.handler}>Hello, world</h3>;
+                }
+            }
+
+            ReactDOM.render(
+                <div>
+                    <h3 onClick={handleClick}>Hello, world</h3>
+                    <Message onClick={handleClick} />
+                    <Message onMouseOver={handleClick} />
+                </div>,
+                document.getElementById( 'root' )
+            );
+         </script>
+    </body>
+</html>

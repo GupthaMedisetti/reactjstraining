@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Using refs - uncontrolled components</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Using refs - uncontrolled components</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * refs are used to get DOM node references
+             * Use a ref attribute and set its value as a callback function. The callback receives a reference to the DOM node. Usually this is stored as a component instance property to make it available throughout the instance.
+             * For example, an input DOM node reference can be made use of to extract the inpute value during form submission
+             */
+
+            class InputEcho extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        textValue: ''
+                    };
+                    this.handleChange = this.handleChange.bind( this );
+                }
+
+                handleChange() {
+                    this.setState({
+                        textValue: this.inputNode.value
+                    });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <input type="text" ref={ ( node ) => this.inputNode = node } onChange={this.handleChange} />
+                            <br /><br />
+                            <span>{this.state.textValue}</span>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render( <InputEcho />, document.getElementById( 'root' ) );
+        </script>
+    </body>
+</html>

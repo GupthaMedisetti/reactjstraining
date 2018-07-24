@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>props.children</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>props.children</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * The props.children property has elements of children of the component.
+             * It can be
+             * 1. not be present at all (no children)
+             * 2. string (content within is a string)
+             * 3. React element (has a single React element as child)
+             * 4. Arrays of React elements/strings (has multiple children)
+             * 
+             * Note: props.children can safely be used in a JSX expression in all cases. When no children are present, nothing is rendered and for an array of elements, it renders each child in source order
+             */ 
+            function Message( props ) {
+                console.log( 'props = ', props );
+                console.log( 'props.children = ', props.children );
+                console.log( 'typeof props.children = ', typeof props.children );
+                console.log( 'props.children instanceof Array ? ', props.children instanceof Array );
+                return (
+                    <div>
+                        {props.children}
+                        <hr />
+                    </div>
+                );
+            }
+
+            ReactDOM.render( 
+                <div>
+                    <Message />
+
+                    <Message>Hello, world</Message>
+                    
+                    <Message>
+                        <div>Hello, world</div>
+                    </Message>
+                    
+                    <Message>
+                        <div>Hello, world</div>
+                        <div>It's a beautiful day</div>
+                    </Message>
+                </div>,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

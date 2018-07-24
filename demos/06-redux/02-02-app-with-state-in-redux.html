@@ -1,0 +1,143 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <form>
+            <input type="button" value="Increment" onclick="increment()"/>
+            <input type="button" value="Decrement" onclick="decrement()"/>
+            <h1 id="counter">0</h1>
+        </form>
+
+        <hr />
+        <h2>Login form</h2>
+        <form>
+            <input type="username" oninput="username( event );" />
+            <input type="password" oninput="password( event );" />
+        </form>
+
+        <div>Username: <span id="username"></span></div>
+        <div>Password: <span id="password"></span></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.js"></script>
+        <script>
+            function increment() {
+                console.log( 'incrementing' );
+                appStore.dispatch( incrementAction() );
+            }
+            
+            function decrement() {
+                console.log( 'decrementing' );
+                appStore.dispatch( decrementAction() );
+            }
+
+            function incrementAction() {
+                return {
+                    type: 'INCREMENT'
+                }
+            }
+
+            function decrementAction() {
+                return {
+                    type: 'DECREMENT'
+                }
+            }
+
+            function counterReducer( prevState = { count: 0 }, action ) {
+                let newState;
+
+                switch( action.type ) {
+                    case 'INCREMENT':
+                        newState = { ...prevState, count: prevState.count + 1 };
+                        break;
+                    case 'DECREMENT':
+                        newState = { ...prevState, count: prevState.count - 1 };
+                        break;
+                    default:
+                        newState = { ...prevState };
+                }
+
+                console.log( prevState, action, newState );
+
+                return newState;    
+            }
+
+            function username( event ) {
+                appStore.dispatch( usernameAction( event.target.value ) );
+            }
+            
+            function password( event ) {
+                appStore.dispatch( passwordAction( event.target.value ) );
+            }
+
+            function usernameAction( username ) {
+                return {
+                    type: 'USERNAME_CHANGE',
+                    payload: { username }
+                }
+            }
+            
+            function passwordAction( password ) {
+                return {
+                    type: 'PASSWORD_CHANGE',
+                    payload: { password }
+                }
+            }
+
+            function loginFormReducer( prevState = { username: '', password: '' }, action ) {
+                let newState;
+
+                switch( action.type ) {
+                    case 'USERNAME_CHANGE':
+                        newState = { ...prevState, username: action.payload.username };
+                        break;
+                    case 'PASSWORD_CHANGE':
+                        newState = { ...prevState, password: action.payload.password };
+                        break;
+                    default:
+                        newState = { ...prevState };
+                }
+
+                console.log( prevState, action, newState );
+
+                return newState;    
+            }
+
+            let appStore = Redux.createStore(Redux.combineReducers(
+                {
+                    counter: counterReducer,
+                    loginForm: loginFormReducer
+                }
+            ));
+
+            appStore.subscribe( () => {
+                console.log( appStore.getState() );
+                document.getElementById( 'counter' ).innerText = appStore.getState().counter.count;
+            });
+
+            appStore.subscribe( () => {
+                console.log( appStore.getState() );
+                document.getElementById( 'username' ).innerText = appStore.getState().loginForm.username;
+                document.getElementById( 'password' ).innerText = appStore.getState().loginForm.password;
+            });
+        </script>
+    </body>
+</html>

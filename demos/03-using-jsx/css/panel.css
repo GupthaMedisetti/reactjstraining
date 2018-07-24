@@ -1,0 +1,16 @@
+.panel {
+    border: 1px solid #61dafb;
+    border-radius: 5px;
+}
+
+.panel-heading, .panel-body {
+    padding: 10px;
+    font-family: Garamond, Times, serif;
+    color: #282c34;
+}
+
+.panel-heading {
+    background-color: #61dafb;
+    font-weight: bold;
+    cursor: pointer;
+}

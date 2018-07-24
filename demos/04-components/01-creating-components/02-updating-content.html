@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Updating content</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Updating content</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Since elements are immutable, the only way to update content is to replace the element whose content needs to be updated with a new one instead. This can be done using a function that returns the markup like below.
+             * However, React does intelligent updates to the DOM - even though the entire element is replaced with a new one, only those parts of the DOM, whose content needs to be changed, are updated.
+             * 
+             * Inspect the h2 DOM node using the dev tools to verify that only this element changes - you can also use the paint flashing tools of dev tools for inspection.
+             */
+            function renderTime() {
+                const element = (
+                    <div>
+                        <h3>Indian Standard Time</h3>
+                        <h4>The time is {new Date().toLocaleTimeString()}</h4>
+                    </div>
+                );
+                ReactDOM.render( element, document.getElementById( 'root' ) );
+            }
+
+            setInterval( renderTime, 1000 );
+        </script>
+    </body>
+</html>

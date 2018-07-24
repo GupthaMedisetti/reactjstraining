@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Changing parent component using function bound as props</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <link rel="stylesheet" href="css/panel.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+        <style>
+            .panel {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Changing parent component using function bound as props</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * In order to change the state of a parent component, the child should be passed a function bound as props. This way the child can call the function (which being a method of the parent component has access to the state).
+             * 
+             * Note
+             * 1. Since the parent component method will NOT be called using the parent component instance, the function context will NOT be the parent component instance - so make sure to bind it.
+             * 2. Note how a re-render of a parent component causes re-rendering of children.
+             */
+            class PanelHeading extends React.Component {
+                render() {
+                    console.log( this );
+                    console.log( 'panel heading render' );
+                    
+                    const { title, isOpen, clickHandler } = this.props;
+                    
+                    return (
+                        <header className="panel-heading" onClick={clickHandler}>
+                            {title}
+                            <span className="indicator"><small>{isOpen ? '-' : '+'}</small></span>
+                        </header>
+                    );
+                }
+            }
+
+            class PanelBody extends React.Component {
+                render() {
+                    console.log( this );
+                    console.log( 'panel body render' );
+
+                    const { isOpen, children } = this.props;
+
+                    return (
+                        <header className="panel-body" style={{ display: isOpen ? 'block' : 'none' }}>
+                            {children}
+                        </header>
+                    );
+                }
+            }
+
+            class Panel extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        isOpen: this.props.isOpen || false
+                    }
+                    this.toggle = this.toggle.bind( this );
+                }
+
+                toggle() {
+                    console.log( 'toggle' );
+                    this.setState(prevState => ({
+                        isOpen: !prevState.isOpen
+                    }));
+                }
+
+                render() {
+                    console.log( 'panel render' );
+
+                    const { title, children } = this.props;
+
+                    return (
+                        <section className="panel" id="panel-1">
+                            <PanelHeading isOpen={this.state.isOpen} title={title} clickHandler={this.toggle} />
+                            <PanelBody isOpen={this.state.isOpen}>
+                                {children}
+                            </PanelBody>
+                        </section>
+                    );
+                }
+            }
+
+            let panel1 = (
+                <Panel title="What is React?">
+                    It is a JS library, for building user interfaces, created by Facebook.
+                </Panel>
+            );
+
+            // it is customary to use brackets around the JSX expression so we can indent comfortably
+            let panel2 = (
+                <Panel title="What is Redux?" isOpen>
+                    Redux is a predictable state container for JavaScript apps.
+                </Panel>
+            );
+
+            ReactDOM.render(
+                <div>
+                    {panel1}
+                    {panel2}
+                </div>,
+                document.getElementById( 'root' )
+            );
+         </script>
+    </body>
+</html>

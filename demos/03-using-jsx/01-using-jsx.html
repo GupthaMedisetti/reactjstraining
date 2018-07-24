@@ -1,0 +1,67 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Example using JavaScript XML (JSX) for template</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <link rel="stylesheet" href="css/panel.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Using JavaScript XML (JSX) for Panel</h1>
+        <hr />
+    
+        <!-- we add an element to contain the DOM subtree generated via react -->
+        <div id="root"></div>
+
+        <!-- one more root for this example - usually an application has only one root but this is not mandatory -->
+        <div id="root-another"></div>
+
+        <script type="text/babel">
+            /**
+             * The JavaScript XML (JSX) syntax is used to write the template for a component in React. Though it looks like HTML, it REALLY IS closer to JavaScript (it is React's extension to the JS language).
+             *
+             * Paste this code in Babel online REPL and see how JSX gets transformed to JS
+             * https://babeljs.io/repl/
+             *
+             * Note:
+             * 1. The HTML attribute -> DOM node property name conversions like class -> className hold good in JSX too.
+             * 2. ReactDOM.render() expects a React element as first argument. This means we need to wrap our JSX markup inside of a single container - else it would result in multiple React elements being created.
+             */
+            ReactDOM.render(
+                <section className="panel" id="panel-1">
+                    <header className="panel-heading">
+                        What is React?
+                    </header>
+                    <div className="panel-body">
+                        It is a JS library, for building user interfaces, created by Facebook.
+                    </div>
+                </section>,
+                document.getElementById( 'root' )
+            );
+
+            // Uncomment and check that this results in an error as the elements are not wrapped in a single container element
+            // ReactDOM.render(
+            //     <div>Hello, world</div>
+            //     <div>It is a beautiful day</div>,
+            //     document.getElementById( 'root-another' )
+            // );
+        </script>
+    </body>
+</html>

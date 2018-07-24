@@ -1,0 +1,37 @@
+body {
+    margin-top: 50px;
+}
+
+section {
+    margin-top: 40px;
+}
+
+section h2 {
+    margin-bottom: 20px;
+}
+
+.thumbnail-trending {
+    min-height: 260px;
+}
+
+.thumbnail-recent img {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.thumbnail-recent .caption {
+    width: 100%;
+}
+
+@media all and (min-width: 768px) {
+    .thumbnail-recent {
+        min-height: 140px;
+    }
+
+    .thumbnail-recent img {
+        width: 240px;
+        height: 130px;
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+}

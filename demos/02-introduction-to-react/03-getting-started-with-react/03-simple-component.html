@@ -1,0 +1,87 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World</title>
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            class Timer extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        elapsedIntervals: 0, 
+                        timeStarted: new Date
+                    };
+                    // this.stop = this.stop.bind(this);
+                }
+
+                tick() {
+                    this.setState(prevState => ({
+                        elapsedIntervals: prevState.elapsedIntervals + 1
+                    }));
+                }
+
+                stop = () => {
+                    clearInterval( this.interval );
+                    let elapsedSeconds = ( (new Date).getTime() - this.state.timeStarted.getTime() ) / 1000;
+                    console.log( 'elapsed intervals = ', this.state.elapsedIntervals );
+                    console.log( 'elapsed seconds = ', elapsedSeconds );
+                    console.log( 'intervals per seconds = ', this.state.elapsedIntervals / elapsedSeconds );
+                }
+
+                componentDidMount() {
+                    this.interval = setInterval(() => this.tick(), 10);
+                }
+
+                componentWillUnmount() {
+                    this.stop();
+                }
+
+                render() {
+                    return (
+                        <div>
+                            Intervals elapsed: {this.state.elapsedIntervals}
+                            <br />
+                            <button onClick={this.stop}>Stop</button>
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(<Timer />, document.getElementById( 'root' ));
+        </script>
+
+        <!--
+            Note: this page is a great way to try React but it's not suitable for production.
+            It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+            To set up a production-ready React build environment, follow these instructions:
+            * https://reactjs.org/docs/add-react-to-a-new-app.html
+            * https://reactjs.org/docs/add-react-to-an-existing-app.html
+
+            You can also use React without JSX, in which case you can remove Babel:
+            * https://reactjs.org/docs/react-without-jsx.html
+            * https://reactjs.org/docs/cdn-links.html
+        -->
+    </body>
+</html>

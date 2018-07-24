@@ -1,0 +1,75 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Using props and children</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <link rel="stylesheet" href="css/panel.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+        <style>
+            .panel {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Using props and children</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * To customize a Panel element we can use props and the children of the Panel element. These are available under the object passed to the component function (i.e. Panel()) as argument (usually named props.
+             * The props are available directly inside props, and the children element are available under props.children. Using these allows us to customize our components.
+             * 
+             * "JSX expressions" enable use of JS variables inside of JSX markup. JSX expressions are provided within braces - {}. Any JS expression is also a JSX expression - for example, a string. However JSX can have other types of expressions too - for example, React elements (we will learn expressions in detail later).
+             */
+            function Panel( props ) {
+                return <section className="panel" id={props.id}>
+                            <header className="panel-heading">
+                                {props.title}
+                            </header>
+                            <div className="panel-body">
+                                {props.children}
+                            </div>
+                        </section>;
+            }
+
+            var panel1 = <Panel title="What is React?" id="panel-1">
+                            It is a JS library, for building user interfaces, created by Facebook.
+                         </Panel>;
+
+            // it is customary to use brackets around the JSX expression so we can indent comfortably
+            var panel2 = (
+                <Panel title="What is Redux?" id="panel-2">
+                    Redux is a predictable state container for JavaScript apps.
+                </Panel>
+            );
+
+            ReactDOM.render(
+                <div>
+                    {panel1}
+                    {panel2}
+                </div>,
+                document.getElementById( 'root' )
+            );
+         </script>
+    </body>
+</html>

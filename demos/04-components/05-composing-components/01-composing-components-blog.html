@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Stadium | Giving voice to your thoughts and ideas</title>
+        <link rel="stylesheet" href="external/bootstrap-3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/blog.css">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+        <script src="external/jquery-3.3.1.min.js"></script>
+        <script src="external/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+        <script type="text/babel">
+            /**
+             * We are using jQuery and Bootstrap JS here which is a bad idea. jQuery and Bootstrap work with the browser DOM and that is something we should not manipulate directly when working with React.
+             * 
+             * This example serves the purpose of understanding componentization and hence we use jQeury and Bootstrap.
+             * 
+             * In real world applications you will need to use a React port of Bootstrap - for example react-bootstrap - it implements Bootstrap widgets using React while avoiding use of jQuery and Bootstrap js file.
+             */
+            class Nav extends React.Component {
+                render() {
+                    const { items, additionalClasses } = this.props.nav;
+                    return (
+                        <ul className={'nav navbar-nav ' + ( additionalClasses || '' )}>
+                            {
+                                items.map(item => (
+                                    <li className={item.active ? 'active' : '' }>
+                                        <a href={item.href}>{item.name}</a>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    );
+                }
+            }
+
+            class NavForm extends React.Component {
+                render( props ) {
+                    return (
+                        <form className="navbar-form navbar-left">
+                            <div className="form-group">
+                                <input type="text" className="form-control" placeholder="Search" />
+                            </div>
+                            &nbsp;
+                            <button type="submit" className="btn btn-default">Submit</button>
+                        </form>
+                    );
+                }
+            }
+
+            function NavBar( props ) {
+                return (
+                    <nav className="navbar navbar-inverse navbar-fixed-top">
+                        <div className="container">
+                            <div className="navbar-header">
+                                <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#primary-menu">
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                </button>
+                                <a className="navbar-brand" href={props.homeUrl}>{props.brand}</a>
+                            </div>
+                            <div className="collapse navbar-collapse" id="primary-menu">
+                                {props.navs.map(nav => <Nav nav={nav} />)}
+                                <NavForm />
+                            </div>
+                        </div>
+                    </nav>
+                );
+            }
+        </script>
+
+        <script type="text/babel">
+            const navs = [
+                {
+                    items: [
+                        { name: 'Technology', href: '/technology', active: true },
+                        { name: 'Culture', href: '/culture' },
+                        { name: 'More...', href: '/more' }
+                    ]
+                },
+                {
+                    additionalClasses: 'navbar-right',
+                    items: [
+                        { name: 'Sign in', href: '/sign-in' },
+                        { name: 'Get started', href: '/sign-up' }
+                    ]
+                }
+            ];
+
+            ReactDOM.render( <NavBar brand="Stadium" navs={navs} />, document.getElementById( 'root' ) );
+        </script>
+    </body>
+</html>

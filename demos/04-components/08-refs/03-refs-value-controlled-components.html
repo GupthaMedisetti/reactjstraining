@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Controlled component</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Controlled component</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * A controlled component is an input element whose value is controlled by state data. Thus the value is set as a prop. The state data is set, via the onChange event handler, to the entered value.
+             * 
+             * This means your data (state) and UI (inputs) are always in sync. The state gives the value to the input, and the input asks the Form to change the current value.
+             * 
+             * This also means that the form component can respond to input changes immediately; for example, by:
+             * 1. in-place feedback, like validations
+             * 2. disabling the button unless all fields have valid data
+             * 3. enforcing a specific input format, like credit card numbers
+             * Reference: https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/
+             */
+
+            class InputEcho extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        textValue: ''
+                    };
+                    this.handleChange = this.handleChange.bind( this );
+                }
+
+                handleChange( ev ) {
+                    this.setState({
+                        textValue: ev.target.value
+                    });
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <input type="text" value={this.state.textValue} onChange={this.handleChange} />
+                            <br /><br />
+                            <span>{this.state.textValue}</span>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render( <InputEcho />, document.getElementById( 'root' ) );
+        </script>
+    </body>
+</html>

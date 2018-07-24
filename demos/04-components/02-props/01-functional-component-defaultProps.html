@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Functional components | defaultProps</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Component function - defaultProps</h1>
+        <hr />
+    
+        <div id="root">Please wait for 5 seconds for element to render</div>
+
+        <script type="text/babel">
+            /**
+             * A component function that accepts time to be displayed as prop, and even sets a default if time is not passed.
+             * 
+             * You can assign default values for props by setting defaultProps property on the function - however a dynamic default cannot be set (example - not possible to have a default for time set to current time)
+             */
+            function Time( props ) {
+                return (
+                    <div>
+                        <h3>{props.message}</h3>
+                        <h4>The time is {props.time}</h4>
+                        <hr />
+                    </div>
+                );
+            }
+
+            // The default time setting does not work as intended as the date is whatever it is when the defaultProps objects is created
+            Time.defaultProps = {
+                message: 'Time',
+                time: new Date().toLocaleString()
+            };
+
+            setTimeout(function() {
+                ReactDOM.render( 
+                    <div>
+                        <Time time={new Date().toLocaleString()} message="Local time" />
+                        <Time />
+                    </div>,
+                    document.getElementById( 'root' )
+                );
+            }, 5000);
+        </script>
+    </body>
+</html>

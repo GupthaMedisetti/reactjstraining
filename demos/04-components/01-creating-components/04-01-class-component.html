@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Class component</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Class component</h1>
+        <hr />
+    
+        <div id="root-1"></div>
+        <div id="root-2"></div>
+        <div id="root-3"></div>
+
+        <script type="text/babel">
+            /**
+             * A component class is a class that extends from React.Component class. This base class defines lifecycle methods, initializes props etc. Since an element created using a class component is "stateful", the React.Component class defines methods like setState() to work with state.
+             * 
+             * A component class defines a render() method that is called in order to render the elements within an instance of the component whenever required. The render method functions like a functional component and returns a React element.
+             * 
+             * Using <ComponentClassName /> creates an instance of the component class and renders the element returned by render(). The instance of a class thus created has the props now (along with other information).
+             * 
+             * Note: Within class methods, you can access the instance of the class calling the method using 'this' (the method's context). So, we can use the props now as this.props within the class methods.
+             */
+
+             /** 
+              * A class component <Time /> that accepts time to be displayed as prop or child element, and even sets a default if neither exists.
+              */
+             class Time extends React.Component {
+                render() {
+                    const { props } = this;
+                    let el = (
+                        <div>
+                            <h3>{props.message}</h3>
+                            <h4>The time is {props.time || props.children || new Date().toLocaleTimeString()}</h4>
+                            <hr />
+                        </div>
+                    );
+                    console.log( 'el = ', el );
+                    return el;
+                }
+            }
+
+            const timeEl = <Time time={new Date().toLocaleString()} message="Local time" />
+            console.log( 'timeEl = ', timeEl ); // a React element of Time type
+
+            // ReactDOM.render() returns the instance of the Time component. In case of HTML elements, it is a DOM node.
+            let timeInstance = ReactDOM.render( timeEl, document.getElementById( 'root-1' ) );
+            let divInstance = ReactDOM.render(
+                <div>
+                    {timeEl}
+                    <Time time={new Date().toUTCString()} message="GMT" />
+                    <Time message="Default time (local)" />
+                    <Time message="Content of children (GMT)">{new Date().toUTCString()}</Time>
+                </div>,
+                document.getElementById( 'root-2' )
+            );
+            
+            console.log( 'timeInstance = ', timeInstance );
+            console.log( 'divInstance = ', divInstance );
+        </script>
+    </body>
+</html>

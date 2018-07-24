@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Class component constructor</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Class component constructor</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Inside the component class constructor we need to call super( props ) before accessing "this" - else an error is thrown. This is because the React.Component constructor (super) initializes component instance properties like props etc.
+             */
+
+             class Time extends React.Component {
+                constructor( props ) {
+                    // Uncommenting below line will throw an error
+                    // console.log( this );
+
+                    super( props );
+
+                    // no error since super has been called before this line
+                    console.log( this );
+                }
+
+                render() {
+                    const { props } = this;
+                    return (
+                        <div>
+                            <h3>{props.message}</h3>
+                            <h4>The time is {props.time || props.children || new Date().toLocaleTimeString()}</h4>
+                            <hr />
+                        </div>
+                    );
+                }
+            }
+
+            const timeEl = <Time time={new Date().toLocaleString()} message="Local time" />
+
+            console.log( timeEl ); // an instance of the Time component
+
+            ReactDOM.render( 
+                <div>
+                    {timeEl}
+                    <Time time={new Date().toUTCString()} message="GMT" />
+                    <Time message="Default time (local)" />
+                    <Time message="Content of children (GMT)">{new Date().toUTCString()}</Time>
+                </div>,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Setting key property for efficient DOM updates</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Setting key property for efficient DOM updates</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * A special key property can be set on elements generated via iteration. The key property value is used as a unique identifer for the row during the process of DOM diffing and reconciliation. It serves as an indicator to the React framework to identify which DOM nodes need to be updated - without it React would have to guess the ones that need to be updated and this may result in inefficient updates.
+             * 
+             * Note: If key is duplicated a warning is issued.
+             */
+
+            class List extends React.Component {
+                constructor( props ) {
+                    super( props );
+                    this.state = {
+                        items: this.props.items
+                    };
+                }
+
+                componentDidMount() {
+                    setTimeout(() => {
+                        this.setState(prevState => {
+                            this.state.items.unshift( { id: 58, name: 'Strawberry Jam' } );
+                            return this.state.items;
+                        });
+                    }, 20000);
+                    setTimeout(() => {
+                        this.setState(prevState => {
+                            this.state.items.unshift( { id: 58, name: 'Raspberry Jam' } );
+                            return this.state.items;
+                        });
+                    }, 20000);
+                }
+
+                render() {
+                    let lis = this.state.items.map(item => {
+                        return this.props.noKey ? <li>{item.name}</li> : <li key={item.id.toString()}>{item.name}</li>;
+                    });
+                    return <ul>{lis}</ul>
+                }
+            }
+            
+            let thingsToBuy = [
+                { id: 43, name: 'Tomato Ketchup' },
+                { id: 25, name: 'Notebook' },
+                { id: 37, name: 'Chocolate Bars' }
+            ];
+
+            ReactDOM.render(
+                <List items={thingsToBuy} />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+.master {
+    float: left;
+    width: 20%;
+    margin-right: 2%;
+    padding: 10px;
+}
+
+.detail {
+    float: right;
+    width: 78%;
+    padding: 10px;
+}

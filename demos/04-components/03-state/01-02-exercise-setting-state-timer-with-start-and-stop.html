@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Exercise - Adding and using component state</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Exercise - Adding and using component state</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+             class Timer extends React.Component {
+                constructor(props) {
+                    super(props);
+                    
+                    // set initial state inside constructor
+                    this.state = this.getInitialState()
+                    
+                    // bind event handler method context to the component instance
+                    this.start = this.start.bind(this);
+                    this.stop = this.stop.bind(this);
+                }
+
+                // helper method to get initial state
+                getInitialState() {
+                    return {
+                        status: 'new',
+                        timeElapsed: 0,
+                        timeStarted: new Date
+                    };
+                }
+
+                tick() {
+                    this.setState(prevState => {
+                        let newState;
+
+                        if( prevState.status === 'new' || prevState.status === 'running' ) {
+                            newState = {
+                                status: 'running',
+                                timeElapsed: parseInt( ( ( new Date ).getTime() - prevState.timeStarted.getTime() ) / 1000 )
+                            };
+                        } else if( prevState.status === 'stopped' ) {
+                            newState = this.getInitialState();
+                        } else {
+                            newState = prevState;
+                        }
+
+                        return newState;
+                    });
+                }
+
+                cancelTick() {
+                    this.setState(prevState => {
+                        let newState;
+
+                        if( prevState.status === 'running' ) {
+                            newState = {
+                                status: 'stopped'
+                            };
+                        } else {
+                            newState = prevState;
+                        }
+
+                        return newState;
+                    });
+                }
+
+                start() {
+                    this.tick();
+                    this.interval = setInterval(() => this.tick(), 1000);
+                }
+
+                stop() {
+                    clearInterval( this.interval );
+                    this.cancelTick();
+                }
+
+                componentDidMount() {
+                    this.start()
+                }
+
+                componentWillUnmount() {
+                    this.stop();
+                }
+
+                render() {
+                    return (
+                        <div>
+                            Seconds: {this.state.timeElapsed}
+                            <br />
+                            <button onClick={this.start}>Start</button>
+                            &nbsp;
+                            <button onClick={this.stop}>Stop</button>
+                        </div>
+                    );
+                }
+            }
+
+            ReactDOM.render(<Timer />, document.getElementById( 'root' ));
+        </script>
+    </body>
+</html>

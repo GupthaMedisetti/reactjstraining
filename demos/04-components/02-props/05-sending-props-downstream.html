@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sending props to downstream components</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Sending props to downstream components</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Props may be passed to children components as props again
+             */
+            function SubHeading( props ) {
+                return <small>{props.text}</small>;
+            }
+
+            function Heading( props ) {
+                return (
+                    <header>
+                        <h2>
+                            {props.title}
+                            <br />
+                            <SubHeading text={props.subtitle} />
+                        </h2>
+                    </header>
+                );
+            }
+            
+            ReactDOM.render(
+                <Heading title="Hello, world" subtitle="It's a beautiful day" />,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

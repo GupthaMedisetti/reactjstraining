@@ -1,0 +1,11 @@
+h1 {
+    font-size: 1.75em;
+    margin: 0.3em 0;
+    color: #282c34;
+}
+
+hr {
+    border: none;
+    border-bottom: 1px solid #61dafb;
+    margin: 0.75em 0;
+}

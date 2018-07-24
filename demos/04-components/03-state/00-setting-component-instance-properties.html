@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Sharing data across the component methods- Adding component instance properties</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../../js/react.development.js"></script>
+        <script src="../../js/react-dom.development.js"></script>
+        <script src="../../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Sharing data across the component methods- Adding component instance properties</h1>
+        <hr />
+    
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * A common practice to have a component instance share data across all the component's methods is setting the data as an instance property, i.e. on 'this', where 'this' is the object itself (within the class's method).
+             */
+
+            /**
+             * In this example we have set a color property on the instance which the element's display depends upon (for styling in this case).
+             * In a way, we can say the color of the Message element depends on the "state" of the component instance. So we ensure re-render of the component instance by calling render() whenever color changes.
+             * 
+             * Note: props are immutable - hence props cannot be used to manage such state which is a function of time.
+             */
+            class Message extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.setColor( 'goldenrod' ); // goldenrod, say, is the default color
+                }
+
+                setColor( color ) {
+                    this.color = color;
+
+                    // The below code applies to Part 3
+                    ReactDOM.render( <Message text="Hello, world" />, document.getElementById( 'root' ) );
+                }
+
+                render() {
+                    return <h2 style={{ color: this.color }}>{this.props.text}</h2>;
+                }
+            }
+
+            // Part 1 - This shows we can create component instances explicitly and use them
+            // let messageInstance = new Message( { text: 'Hello, world' } );
+            // ReactDOM.render( messageInstance.render(), document.getElementById( 'root' ) );
+            
+            // Part 2 - Let's do the usual way instead - i.e. by creating a React element
+            // let messageEl = <Message text="Hello, world" />
+            // let messageInstance = ReactDOM.render( messageEl, document.getElementById( 'root' ) );
+            // let messageInstance2;
+
+            // The below code applies to Parts 1, 2
+            // setTimeout(function() {
+            //     messageInstance.setColor( 'crimson' );
+            //     messageInstance2 = ReactDOM.render( <Message text="Hello, world" />, document.getElementById( 'root' ) );
+            //     console.log( messageInstance === messageInstance2 ); // Note: They are both the same - though the message elements are different, the associated component instance does not change
+            // }, 2000);
+
+            // Part 3 - Since change in color should result in re-rendering always, let's set that as part of the Message::setColor() method.
+            let messageEl = <Message text="Hello, world" />
+            let messageInstance = ReactDOM.render( messageEl, document.getElementById( 'root' ) );
+            console.log( messageInstance );
+            setTimeout(function() {
+                messageInstance.setColor( 'crimson' );
+            }, 2000);
+        </script>
+    </body>
+</html>

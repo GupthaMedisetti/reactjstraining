@@ -1,0 +1,69 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Inline styles</title>
+        <link rel="stylesheet" href="../css/demo.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+    </head>
+    <body>
+        <h1>Inline styles</h1>
+        <hr />
+    
+        <!-- we add an element to contain the DOM subtree generated via react -->
+        <div id="root"></div>
+
+        <script type="text/babel">
+            /**
+             * Inline styles are supplied using the style prop. The value of style in JSX is a JS object - it DOES NOT accept a string (this is enforced in order to prevent XSS attacks)
+             * Rules for converting
+             * 1. kebab-cased CSS properties are camelCased in style object used in JSX
+             * 2. vendor-prefixed properties start with capital case except for Microsoft IE/Edge (-ms-transform becomes msTransform, but -webkit-transform becomes WebkitTransform)
+             * 3, React will automatically append a "px" suffix to certain numeric inline style properties. If you want to use units other than "px", specify the value as a string with the desired unit.
+             * 
+             * Note: Auto-prefixing is NOT done for properties that have vendor-prefixed versions.
+             */
+            // styles common to heading and body
+            let panelHeadingBodyCommonStyle = {
+                padding: 10,
+                fontFamily: "Garamond, Times, serif",
+                color: "#282c34",
+            }
+
+            // equivalent of a "CSS override"
+            let panelHeadingStyle = Object.assign( {}, panelHeadingBodyCommonStyle, {
+                backgroundColor: "#61dafb",
+                fontWeight: "bold",
+                cursor: "pointer"
+            });
+
+            ReactDOM.render(
+                <section style={{ border: "1px solid #61dafb", borderRadius: 5 }} id="panel-1">
+                    <header style={panelHeadingStyle}>
+                        What is React?
+                    </header>
+                    <div style={panelHeadingBodyCommonStyle}>
+                        It is a JS library, for building user interfaces, created by Facebook.
+                    </div>
+                </section>,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

@@ -1,0 +1,96 @@
+<!--
+ * React JS Demos v1.0.0
+ *
+ * Copyright Prashanth Puranik
+ * All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law. For permission requests, write to the publisher, addressed "Attention: Permissions Coordinator" at the address below.
+ * 
+ * Prahara Consulting Private Limited
+ * 204, Sri Vari Enclave
+ * Horamavu Agara Road, Horamavu, Bangalore.
+ * 
+ * puranik@digdeeper.in
+ * 
+ * Date: 2018-02-28T17:24Z
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Hello World</title>
+        <link rel="stylesheet" href="../../css/demo.css">
+        <script src="../js/react.development.js"></script>
+        <script src="../js/react-dom.development.js"></script>
+        <script src="../js/babel.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            let days = [ 'Sun', 'Mon', 'Tue' ];
+            let elms = [], els = [];
+
+            class CustomElement extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        items: props.items
+                    };
+                }
+
+                componentDidMount() {
+                    console.log( 'component mounted' );
+                    setInterval(() => {
+                        this.setState(prevState => {
+                            prevState.items.push( 'one' );
+                            return {
+                                items: prevState.items
+                            };
+                        });
+                    }, 1000);
+                }
+
+                componentDidUnmount() {
+                    console.log( 'component unmounted' );
+                }
+
+                render() {
+                    // this is an array of elements
+                    let items = this.state.items.map((day) =>
+                        <li>{day}</li>
+                    );
+                    // React elements are immutable. Once you create an element, you can't change its children or attributes. An element is like a single frame in a movie: it represents the UI at a certain point in time.
+                    // an element or even an array of elements can be bound (e.g. {items})
+                    let elm = <section style={{color: this.props.color}}>
+                        {this.props.message}
+                        <ul>{items}</ul>
+                    </section>;
+                    elms.push( elm );
+                    // 1.2 Use {} for expressions other than string value for attribute (prop)
+                    return elm;
+                }
+            }
+
+            // 1. A JSX expression returns an element (object) - check its properties
+            // 1.1 Use quotes for string attribute values
+            console.log( <a href="https://www.google.com">Google search</a> );
+            
+            // 2. It can have only one container element
+            // 2.1 Attributes translate to properties like in the DOM (class thus becomes className)
+            // 2.2 The parentheses are optional but recommended to avoid automatic semi-colon insertion
+            var el = (<h1>
+                <CustomElement items={days} color="crimson" message="Hello custom element" className="a" />
+                <span>Hello</span>, <span>world</span>!
+            </h1>);
+            console.log( el );
+
+            setInterval(function() {
+                els.push( el );
+            }, 2000);
+
+            ReactDOM.render(
+                el,
+                document.getElementById( 'root' )
+            );
+        </script>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script src="https://unpkg.com/redux@3.7.2/dist/redux.min.js"></script>
+    </head>
+    <body>
+        <input type="button" id="btn-increment" value="Increment" onclick="increment();" />
+        <input type="button" id="btn-decrement" value="Decrement" onclick="decrement();" />
+
+        <h1 id="el-count"></h1>
+        
+        <script>
+            // state of the application
+            var count = 0;
+
+            var btnIncrement = document.getElementById( 'btn-increment' );
+            var btnDecrement = document.getElementById( 'btn-decrement' );
+            var elCount = document.getElementById( 'el-count' );
+
+            function updateCount() {
+                elCount.innerText = count;
+            }
+
+            function increment() {
+                count++;
+                updateCount();
+            }
+
+            function decrement() {
+                count--;
+                updateCount();
+            }
+        </script>
+    </body>
+</html>
