@@ -58,9 +58,9 @@ The training session are recorded using Zoom (https://zoom.us). If you are using
 
 ## Video recordings
 The videos recordings of the session is available at the following location.
-- [Day 1 | July 25](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-25-2018.mp4)
-- [Day 2 | July 26](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-26-2018.mp4)
-- [Day 3 | July 27](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react-js/july-27-2018.mp4)
+- [Day 1 | July 25](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-25-2018.mp4)
+- [Day 2 | July 26](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-26-2018.mp4)
+- [Day 3 | July 27](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-27-2018.mp4)
 
 
 ## How to run the server for blogs (Ajax example)
