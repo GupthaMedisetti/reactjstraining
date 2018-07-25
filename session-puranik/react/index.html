@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        <!-- The React library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.1/umd/react.development.js"></script>      
+        
+        <!-- Helps React works with the browser's DOM -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.1/umd/react-dom.development.js"></script>
+
+        <!-- Babel compiler -->        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <!--
+            We are using Babel instead of running scripts through the JS engine in the browser
+            This is because
+                1. Not all browsers support all ES2015 features - Babel does
+                2. No browser understands JSX - JSX is not part of JS - babel however understands
+        -->
+        <script type="text/babel">
+            // create a React element - the HTML-like syntax that we use is actally JSX (JavaScript XML)
+            // JSX is an extension to JS created by React
+            // A React element mirrors a DOM node
+            // Just like DOM nodes have children, React elements have children
+            // A React element is just a JS object that represents a DOM node
+            let welcomeMessage = <div id="welcome-message">
+                <h1 title="React is a library by Facebook">Hello, React</h1>
+                <p>This is my first React page</p>
+            </div>;
+
+            console.log( React ); // This is the main class created by react.development.js 
+            console.log( ReactDOM ); // This is the main object created by react-dom.development.js
+
+            ReactDOM.render( welcomeMessage, document.getElementById( 'root' ) );
+
+            console.log( welcomeMessage );
+        </script>
+    </body>
+</html>

@@ -36,3 +36,32 @@ Person.sayHello();
 
 // Exercise: Define an Employee class that has name, age, role, dept.
 // Define getName(), setName( newName ), getRole(), setROle( newRole ), celebrateBirthday() -> prints out a line saying "Happy birthday" and then increments age
+class Employee extends Person {
+    constructor( name, age, role, dept ) {
+        // this.name = name; // don't repeat yourself
+        // this.age = age;
+        super( name, age ); // superclass constructor called as super()
+        this.role = role;
+        this.dept = dept;
+    }
+
+    getRole() {
+        return this.role;
+    }
+
+    setRole( newRole ) {
+        this.role = role;
+    }
+
+    celebrateBirthday() { // overrides base class implementation
+        // this.age++; // don't repeat yourself
+        super.celebrateBirthday();
+        console.log( 'Happy birthday. Here is a gift voucher form us...' )
+    }
+}
+
+let johnson = new Employee( 'Johnson', 32 );
+console.log( johnson.getName() ); // inherited method
+console.log( johnson.getRole() ); // own method
+johnson.celebrateBirthday(); // overriden (own) method
+console.log( johnson.age );
