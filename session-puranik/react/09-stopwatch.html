@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.1/umd/react.development.js"></script>      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.1/umd/react-dom.development.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+            class Stopwatch extends React.Component {
+                constructor( props ) {
+                    super( props );
+
+                    this.state = this.getInitialState();
+
+                    this.tick = this.tick.bind( this ); // option #3 for binding the this of the tick method, permanently to the Stopwatch instance
+                }
+
+                getInitialState() {
+                    return {
+                        startTime: null,
+                        status: 'stopped',  // 'stopped' | 'running'
+                        secondsElapsed: 0
+                    };
+                }
+
+                start() {
+                    this.setState({
+                        startTime: new Date(),
+                        status: 'running'
+                    });
+                    setInterval( this.tick, 1000 ); // we don't bind since option #2 for binding "this" within a class method is used
+                }
+
+                tick = () => { // option #2: for "this" to refer to class instance always you can define the method this way
+                    // when the new state depends on the current state, DO NOT call setState() by passing the new state directly - instead use the following way 
+                    this.setState(
+                        // be really careful about this syntax - this is the way to return an object in a single line arrow function
+                        curState => ({
+                            secondsElapsed: ( ( new Date() ).getTime() - curState.startTime.getTime() ) / 1000
+                        }),
+                        function() { // a callback function - called when state is actually changed
+                            console.log( 'state has changed' );
+                        }
+                    );
+                }
+
+                // start() {
+                //     tick();
+                //     setInterval( tick, 1000 );
+                // }
+
+                render() {
+                    let { secondsElapsed, status, startTime } = this.state;
+                    return (
+                        <div>
+                            <p>
+                                Number of seconds: <span>{secondsElapsed}</span>
+                            </p>
+                            <b>{status}</b>
+                            <br/>
+                            {status === 'running' ? 'Started at ' + ( startTime ? startTime.toTimeString() : null ) : null}
+                        </div>
+                    );
+                }
+            }
+
+            let stopwatch = ReactDOM.render( <Stopwatch />, document.getElementById( 'root' ) );
+            console.log( stopwatch ); // Stopwatch instance
+
+            setTimeout( function() {
+                stopwatch.start();
+            }, 5000 );
+        </script>
+    </body>
+</html>
