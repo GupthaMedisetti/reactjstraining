@@ -20,14 +20,12 @@
                 let priceOfBurger = 65, priceOfCoke = 40;
                 let gstPercentage = 5;
 
-                let getTotalPrice = price => price + price * gstPercentage / 100;
+                let getTotalPrice = ( price, gstPercentage ) => price + price * gstPercentage / 100;
 
                 // An array of React elements for line totals
                 // let { lineItems } = props; // destructuring!
                 let { items } = props; // destructuring!
                 
-                let dummy = null; /* if variable is null then {dummy} will not render anything */
-
                 // technique to hide and show elements
                 let isUserNew = true;
                 let couponEl;
@@ -38,14 +36,22 @@
 
                 // construct line items (an array of React elements) by iteraing through items
                 let lineItems = [];
-                for() { // iterate through the items array
-                    // construct a React element for the representing line item for the item and push it to the array
-                    
-                }
+                // Option #1: To generate an array of React elements - use for loop
+                // for( let i = 0; i < items.length; i++ ) { // iterate through the items array
+                //     // construct a React element for the representing line item for the item and push it to the array
+                //     let lineItem = <p>Price of {items[i].name} is {getTotalPrice( items[i].price, items[i].gstPercentage )}</p>;
+                //     lineItems.push( lineItem );
+                // }
+                // console.log( lineItems );
 
+                // Exercise: Convert the for loop to an items.map call and generate array of line items (React element)
+                // arr = [1, 2, 3]
+                // result = arr.map( n => n * n ) // [1, 4, 9]
+                // Options #2: To generate an array of React elements using array.map()
+                lineItems = items.map( item => <p>Price of {items[i].name} is {getTotalPrice( items[i].price, items[i].gstPercentage )}</p> );
 
                 // React element for total
-                let total = ( priceOfBurger + priceOfBurger * gstPercentage / 100 ) + getTotalPrice( priceOfCoke );
+                let total = ( priceOfBurger + priceOfBurger * gstPercentage / 100 ) + getTotalPrice( priceOfCoke, gstPercentage );
                 let totalEl = <p>The total is {total}</p>
 
                 function renderCoupon( isUserNew ) {
@@ -57,7 +63,10 @@
                     <div>
                         {'Invoice'} #{100 + 1} { /* constants */ }
                         <hr />
-                        {lineItems}
+                        { /* Option #3: Generate the array of lineItems (React elements) inside JSX expression
+                            items.map( item => <p>Price of {items[i].name} is {getTotalPrice( items[i].price, items[i].gstPercentage )}</p> )
+                        }
+                        {/* lineItems */ }
                         {totalEl} {/* we can have a react element within a JSX expression */}
                         {/*couponEl*/}
                         {/* // option #2 : Hiding and showing conditionally
@@ -65,7 +74,6 @@
                                 <p>You can apply NEW30 and get a discount of 30% on the next purchase</p> : null
                         */}
                         {renderCoupon( isUserNew )} { /* option #3 : Hiding and showing conditionally */ }
-                        {dummy}
                     </div>
                 );
             }
@@ -73,22 +81,24 @@
             let items = [
                 {
                     name: 'Burger',
+                    price: 65,
                     gstPercentage: 5
                 },
                 {
                     name: 'Coke',
+                    price: 50,
                     gstPercentage: 10
                 }
             ];
 
-            let lineItems = [
-                <p>
-                    Price of burger inclusive of tax is {priceOfBurger + priceOfBurger * gstPercentage / 100}
-                </p>,
-                <p>
-                    Price of coke is {getTotalPrice( priceOfCoke )}
-                </p>
-            ];
+            // let lineItems = [
+            //     <p>
+            //         Price of burger inclusive of tax is {priceOfBurger + priceOfBurger * gstPercentage / 100}
+            //     </p>,
+            //     <p>
+            //         Price of coke is {getTotalPrice( priceOfCoke )}
+            //     </p>
+            // ];
 
             // ReactDOM.render( <Invoice lineItems={lineItems} /> , document.getElementById( 'root' ) );
             ReactDOM.render( <Invoice items={items} /> , document.getElementById( 'root' ) );
