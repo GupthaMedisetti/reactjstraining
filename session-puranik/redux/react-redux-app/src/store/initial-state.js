@@ -1,5 +1,7 @@
 export let initialCounterState = {
-    result : 0
+    result : 0,
+    loading: false,
+    product: null
 };
 
 export let initialProfileState = {

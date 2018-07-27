@@ -1,7 +1,7 @@
-import { INCREMENT, DECREMENT } from '../actions/actions-constants';
+import { INCREMENT, DECREMENT, FETCH_PRODUCT, FETCH_PRODUCT_SUCCESS } from '../actions/actions-constants';
 import { initialCounterState } from '../store/initial-state';
 
-export default counterReducer = ( curState = initialCounterState, action ) => {
+export default ( curState = initialCounterState, action ) => {
     /* returns new state (without modifying anyting in old state) */
     // curState.result++ // DO NOT DO THIS
     
@@ -21,6 +21,20 @@ export default counterReducer = ( curState = initialCounterState, action ) => {
                 ...curState,
                 result: curState.result - 1
             };
+            break;
+        case FETCH_PRODUCT:
+            newState = {
+                ...curState,
+                loading: true,
+                product: null
+            };
+            break;
+        case FETCH_PRODUCT_SUCCESS:
+            newState = {
+                ...curState,
+                loading: false,
+                product: action.payload.product
+            }
             break;
         default:
             return curState; // if the reducer does not know what to do with the action then return the current state object as such

@@ -1,7 +1,7 @@
 import { UPDATE_NAME, UPDATE_AGE } from '../actions/actions-constants';
 import { initialProfileState } from '../store/initial-state';
 
-export default profileReducer = ( curState = initialProfileState, action ) => {
+export default ( curState = initialProfileState, action ) => {
     let newState;
 
     console.log( 'state passed to profile reducer : ', curState );
