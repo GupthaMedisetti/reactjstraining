@@ -51,11 +51,13 @@
             const INCREMENT = 1, DECREMENT = 2, UPDATE_NAME = 3, UPDATE_AGE = 4;
 
             // reducer - will be called once when the store is created, and later everytime there is an action dispatched to the store
-            let counterReducer = ( curState /* = { result : 0 } */, action ) => {
+            let counterReducer = ( curState = { result : 0 }, action ) => {
                 /* returns new state (without modifying anyting in old state) */
                 // curState.result++ // DO NOT DO THIS
                 
                 let newState; // reference for new state object
+
+                console.log( 'state passed to counter reducer : ', curState );
 
                 switch( action.type ) {
                     case INCREMENT:
@@ -70,6 +72,19 @@
                             result: curState.result - 1
                         };
                         break;
+                    default:
+                        return curState; // if the reducer does not know what to do with the action then return the current state object as such
+                }
+
+                return newState; // return the new object
+            }
+
+            let profileReducer = ( curState = { name: '', age: '' }, action ) => {
+                let newState;
+
+                console.log( 'state passed to profile reducer : ', curState );
+
+                switch( action.type ) {
                     case UPDATE_NAME:
                         newState = {
                             ...curState,
@@ -90,7 +105,24 @@
             }
 
             // store for the app
-            let store = Redux.createStore( counterReducer, { result : 0, name: '', age: '' }, Redux.applyMiddleware( logger ) );
+            let store = Redux.createStore( 
+                Redux.combineReducers(
+                    {
+                        counter: counterReducer,
+                        profile: profileReducer
+                    }
+                ),
+                // {   // initial state
+                //     counter: {
+                //         result : 0
+                //     },
+                //     profile: {
+                //         name: '',
+                //         age: ''
+                //     }
+                // },
+                Redux.applyMiddleware( logger )
+            );
 
             // action creators to create action objects
             let increment = () => ({
@@ -133,7 +165,7 @@
 
             // wherever in application you are interested in reacting to state changes...subscribe...
             store.subscribe(() => {
-                let { result, name, age } = store.getState();
+                let { counter: { result }, profile: { name, age } } = store.getState();
 
                 // do UI updates when any part of state updates :( - inefficient
                 resultEl.innerText = result;
