@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.1/umd/react.development.js"></script>      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.1/umd/react-dom.development.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+            class ProfileForm extends React.Component { // createClass() used in old versions of React
+                constructor( props ) {
+                    super( props );
+
+                    this.state = this.getInitialState();
+                }
+
+                getInitialState() {
+                    return {
+                        name: 'John',
+                        email: 'john@example.com'
+                    };
+                }
+
+                submitForm = ( event ) => {
+                    event.preventDefault();
+                    this.setState(
+                        {
+                            name: this.nameEl.value,
+                            email: this.emailEl.value
+                        },
+                        function() { // callback function called once state is updated
+                            console.log( 'new state is', this.state );
+                        }
+                    );
+                };
+
+                onChangeHandler( key ) {
+                    let el;
+
+                    switch( key ) {
+                        case 'name':
+                            el = this.nameEl;
+                            break;
+                        case 'email':
+                            el = this.emailEl;
+                            break;
+                    }
+
+                    let deltaState = {};
+                    deltaState[key] = el.value;
+                    this.setState( deltaState );
+                }
+
+                render() {
+                    let { name, email } = this.state;
+
+                    return (
+                        <form onSubmit={this.submitForm}>
+                            {/* defaultValue="John" can be used to set default value if value if not used */}
+                            Name: <input type="text" name="name" id="name" ref={ node => this.nameEl = node } value={name} onChange={this.onChangeHandler.bind( this, 'name' )} />
+                            <br />
+                            Email: <input type="email" name="email" id="email" ref={ node => this.emailEl = node } value={email} onChange={this.onChangeHandler.bind( this, 'email' )} />
+                            <input type="submit" value="Submit" />
+                            {name} | {email}
+                        </form>
+                    );
+                }
+            }
+
+            ReactDOM.render( <ProfileForm />, document.getElementById( 'root' ) );
+        </script>
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.4.1/umd/react.development.js"></script>      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.4.1/umd/react-dom.development.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+        <script type="text/babel">
+            class ShoppingList extends React.Component {
+                constructor( props ) {
+                    super( props );
+
+                    this.state = {
+                        items: props.items
+                    };
+                }
+
+                deleteItem = ( item ) => {
+                    let { items } = this.state;
+                    console.log( item );
+                    let index = items.indexOf( item );
+
+                    this.setState( curState => curState.items.splice( index, 1 ) );
+                }
+
+                render() {
+                    let { items } = this.state;
+                    return (
+                        <ul>
+                            {
+                                items.map( item => <li key={item.id} onClick={this.deleteItem.bind( this, item)}>{item.name} | {item.price}</li> )
+                            }
+                        </ul>
+                    )
+                }
+            }
+
+            let items = [
+                {
+                    id: 1,
+                    name: 'Toothpaste',
+                    price: 58
+                },
+                {
+                    id: 2,
+                    name: 'Lays chips',
+                    price: 35
+                },
+                {
+                    id: 3,
+                    name: 'Tomatoes',
+                    price: 20
+                }
+            ]
+
+            ReactDOM.render( 
+                <ShoppingList items={items} />, 
+                document.getElementById( 'root' )
+            );
+
+            setTimeout( () => {
+                items.unshift({
+                    id: 4,
+                    name: 'Maggi Noodles',
+                    price: 50
+                });
+
+                ReactDOM.render( 
+                    <ShoppingList items={items} />, 
+                    document.getElementById( 'root' )
+                );
+            }, 20000 );
+        </script>
+    </body>
+</html>

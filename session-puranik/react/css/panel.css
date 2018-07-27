@@ -1,6 +1,7 @@
 .panel {
     border: 1px solid goldenrod;
     border-radius: 4px;
+    margin-top: 10px;
 }
 
 .panel-heading, .panel-body {

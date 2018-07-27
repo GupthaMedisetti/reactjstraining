@@ -16,11 +16,18 @@
 
         <script type="text/babel">
             function handleClick() {
-                console.log( 'click event' );
+                console.log( 'click event handler (global)' );
             }
 
             class Message extends React.Component {
-                handler() {
+                constructor( props ) {
+                    super( props );
+
+                    this.handler = this.handler.bind( this ); // option #2: this makes sure that the "this" within the handler is your class instance
+                }
+
+                handler = () => { // option #1: this syntax makes sure that the "this" within the handler is your class instance
+                    console.log( 'double click / mouse out handler (inside class)')
                     console.log( this );
                 }
 

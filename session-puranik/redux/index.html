@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="counter-part">
+            <button id="btn-increment">Increment</button>
+            <br />
+            <button id="btn-decrement">Decrement</button>
+            <br />
+            Result: <output id="result"></output>
+        </div>
+        <div id="profile-part">
+            <form>
+                Name: <input type="name" name="name" id="name" />
+                Age: <input type="age" name="age" id="age" />
+            </form>
+            <output id="result-name"></output> / <output id="result-age"></output>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.min.js"></script>
+
+        <script>
+            let btnIncrement = document.getElementById( 'btn-increment' );
+            let btnDecrement = document.getElementById( 'btn-decrement' );
+            let resultEl = document.getElementById( 'result' );
+
+            let nameEl = document.getElementById( 'name' );
+            let ageEl = document.getElementById( 'age' );
+            let resultNameEl = document.getElementById( 'result-name' );
+            let resultAgeEl = document.getElementById( 'result-age' );
+
+            // let x = a => b  => c => a + b + c;
+            // let fn1 = x( 1 );
+            // let fn2 = fn1( 2 );
+            // let res = fn2( 3 );
+            // console.log( res );
+
+            // middleware - a function that is executed when a stores dispatches an action to reducer - there can be multiple such middleware functions and they are executed in a set order
+            // make sure to call next( action ) - else the state will not be updated
+            let logger = state => next => action => {
+                console.log( state, action );
+                next( action );
+            };
+            
+            // action types
+            const INCREMENT = 1, DECREMENT = 2, UPDATE_NAME = 3, UPDATE_AGE = 4;
+
+            // reducer - will be called once when the store is created, and later everytime there is an action dispatched to the store
+            let counterReducer = ( curState /* = { result : 0 } */, action ) => {
+                /* returns new state (without modifying anyting in old state) */
+                // curState.result++ // DO NOT DO THIS
+                
+                let newState; // reference for new state object
+
+                switch( action.type ) {
+                    case INCREMENT:
+                        newState = { // we make sure not to modify current state in any way (hence a new object is being created)
+                            ...curState,
+                            result: curState.result + 1 // we make sure not to modify current state in any way (hence no ++ used)
+                        };
+                        break;
+                    case DECREMENT:
+                        newState = {
+                            ...curState,
+                            result: curState.result - 1
+                        };
+                        break;
+                    case UPDATE_NAME:
+                        newState = {
+                            ...curState,
+                            name: action.payload.name
+                        };
+                        break;
+                    case UPDATE_AGE:
+                        newState = {
+                            ...curState,
+                            age: action.payload.age
+                        }
+                        break;
+                    default:
+                        return curState; // if the reducer does not know what to do with the action then return the current state object as such
+                }
+                
+                return newState; // return the new object
+            }
+
+            // store for the app
+            let store = Redux.createStore( counterReducer, { result : 0, name: '', age: '' }, Redux.applyMiddleware( logger ) );
+
+            // action creators to create action objects
+            let increment = () => ({
+                type: INCREMENT /* no extra info except type is required in this simple case */
+            });
+
+            let decrement = () => ({
+                type: DECREMENT
+            });
+
+            let updateName = ( name ) => ({
+                type: UPDATE_NAME,
+                payload: {
+                    name: name
+                }
+            });
+
+            let updateAge = ( age ) => ({
+                type: UPDATE_AGE,
+                payload: {
+                    age: age
+                }
+            });
+
+            btnIncrement.onclick = () => {
+                store.dispatch( increment() );
+            };
+
+            btnDecrement.onclick = () => {
+                store.dispatch( decrement() );
+            };
+
+            nameEl.oninput = () => {
+                store.dispatch( updateName( nameEl.value ) );
+            };
+            
+            ageEl.oninput = () => {
+                store.dispatch( updateAge( ageEl.value ) );
+            };
+
+            // wherever in application you are interested in reacting to state changes...subscribe...
+            store.subscribe(() => {
+                let { result, name, age } = store.getState();
+
+                // do UI updates when any part of state updates :( - inefficient
+                resultEl.innerText = result;
+                resultNameEl.innerText = name;       
+                resultAgeEl.innerText = age;
+            });
+        </script>
+    </body>
+</html>
