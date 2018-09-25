@@ -1,5 +1,5 @@
-# react-harman-july-25-27-2018
-React JS training material for training at Harman, Bangalore (July 25 - 27, 2018)  
+# react-harman-sep-26-28-2018
+React JS training material for training at Harman, Bangalore (Sep 26 - 28, 2018)  
 Training provided by __Enterprise Patterns__
 
 ## About React
@@ -44,7 +44,7 @@ This path is a shared folder where software for training is available for downlo
 
 ## Training schedule
 __Topic__: React JS  
-__Dates__: July 25 - 27, 2018  
+__Dates__: Sep 26 - 28, 2018  
 __Time__: 9:30 AM - 5:30 PM
   
 __Breaks__:  
@@ -54,13 +54,13 @@ Tea breaks: Two tea breaks - one in morning and one in afternoon session, each 1
 ## How to join the meeting
 The training session are recorded using Zoom (https://zoom.us). If you are using Zoom for the first time you will be prompted to download Zoom when you open the meeting link in the browser. Do so and follow the steps in the wizard.
 
-[Join from PC, Mac, Linux, iOS or Android](https://zoom.us/j/465451423)
+[Join from PC, Mac, Linux, iOS or Android](https://zoom.us/j/740411308)
 
 ## Video recordings
 The videos recordings of the session is available at the following location.
-- [Day 1 | July 25](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-25-2018.mp4)
-- [Day 2 | July 26](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-26-2018.mp4)
-- [Day 3 | July 27](https://s3.amazonaws.com/corporate-trainings/harman/july-25-27-2018-react/july-27-2018.mp4)
+- [Day 1 | July 26](https://s3.amazonaws.com/corporate-trainings/harman/sep-26-28-2018-react/sep-26-2018.mp4)
+- [Day 2 | July 27](https://s3.amazonaws.com/corporate-trainings/harman/sep-26-28-2018-react/sep-27-2018.mp4)
+- [Day 3 | July 28](https://s3.amazonaws.com/corporate-trainings/harman/sep-26-28-2018-react/sep-28-2018.mp4)
 
 
 ## How to run the server for blogs (Ajax example)
